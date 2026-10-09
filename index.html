@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coming Soon</title>
+  <meta name="description" content="Something cozy is blooming. Check back soon.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --night: #0b1230;
+      --sky-1: #3a5ac0;
+      --sky-2: #1f3283;
+      --sky-3: #121d4a;
+      --trunk: #13261f;
+      --leaf-1: #2f7a45;
+      --leaf-2: #24603a;
+      --leaf-3: #183f2a;
+      --leaf-4: #3f8f52;
+      --petal: #3f66e6;
+      --petal-light: #c9d6ff;
+      --glow: #ffd65c;
+      --text: #f1f3ff;
+      --text-soft: #c3cdf5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      background: var(--night);
+      color: var(--text);
+      font-family: "Nunito", system-ui, sans-serif;
+      overflow: hidden;
+    }
+
+    .scene {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, var(--sky-1) 0%, var(--sky-2) 40%, var(--sky-3) 75%, var(--night) 100%);
+    }
+
+    .layer { position: absolute; inset: 0; pointer-events: none; }
+    .crayon { filter: url(#crayon); }
+
+    /* distant tree trunks, soft and misty */
+    .trees { filter: blur(2.5px) url(#crayon); opacity: .6; }
+    .trees span {
+      position: absolute;
+      bottom: 42%;
+      border-radius: 45% 45% 10% 10% / 12% 12% 4% 4%;
+      background: linear-gradient(to bottom, #2b45a3, #3b5ecb 75%, rgba(59, 94, 203, 0));
+    }
+
+    .fog {
+      background:
+        linear-gradient(to bottom, transparent 40%, rgba(80, 112, 220, .35) 58%, transparent 72%),
+        radial-gradient(ellipse 70% 20% at 50% 58%, rgba(120, 150, 240, .25), transparent 70%);
+    }
+
+    /* foreground tree on the left */
+    .trunk {
+      position: absolute;
+      left: -6vw;
+      top: 0;
+      width: clamp(90px, 18vw, 260px);
+      height: 72%;
+      background: linear-gradient(to right, #0c1a15, var(--trunk) 60%, #1b3a2e);
+      border-radius: 0 40% 30% 0 / 0 20% 40% 0;
+    }
+
+    .canopy span, .bush span, .field .leaf {
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .field { top: auto; height: 48%; bottom: 0; }
+    .field::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(40, 70, 170, 0) 0%, rgba(32, 72, 70, .7) 35%, #1f5a35 70%, #1a4a2d 100%);
+    }
+    .field svg { position: absolute; overflow: visible; }
+
+    /* fireflies */
+    .fly {
+      position: absolute;
+      width: var(--s);
+      height: var(--s);
+      border-radius: 50%;
+      background: #fff6c8;
+      box-shadow: 0 0 6px 2px var(--glow), 0 0 18px 6px rgba(255, 214, 92, .35);
+      animation: drift var(--d) ease-in-out infinite alternate, blink var(--b) ease-in-out infinite;
+      animation-delay: var(--delay), var(--delay);
+    }
+    @keyframes drift {
+      to { transform: translate(var(--dx), var(--dy)); }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: .25; }
+      50% { opacity: 1; }
+    }
+
+    /* paper grain over everything */
+    .grain {
+      opacity: .22;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* content */
+    main {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: clamp(28vh, 30vh, 34vh) 16px 0;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-family: "Fredoka", sans-serif;
+      font-size: clamp(.85rem, 2.4vw, 1rem);
+      letter-spacing: .25em;
+      text-transform: lowercase;
+      color: var(--text-soft);
+      margin-bottom: .6rem;
+    }
+
+    h1 {
+      font-family: "Fredoka", sans-serif;
+      font-weight: 600;
+      font-size: clamp(2.8rem, 11vw, 6.5rem);
+      line-height: 1;
+      letter-spacing: .01em;
+      text-shadow: 0 0 24px rgba(255, 214, 92, .25), 0 4px 30px rgba(10, 18, 60, .6);
+    }
+
+    h1 .zz {
+      display: inline-block;
+      font-size: .35em;
+      vertical-align: top;
+      color: var(--glow);
+      margin-left: .1em;
+      animation: zz 3.2s ease-in-out infinite;
+    }
+    @keyframes zz {
+      0%, 100% { transform: translateY(0); opacity: .5; }
+      50% { transform: translateY(-.35em); opacity: 1; }
+    }
+
+    .lede {
+      max-width: 30rem;
+      margin-top: 1.1rem;
+      font-size: clamp(1rem, 2.6vw, 1.15rem);
+      line-height: 1.6;
+      color: var(--text-soft);
+      text-shadow: 0 2px 12px rgba(10, 18, 60, .8);
+    }
+
+    footer {
+      position: fixed;
+      z-index: 2;
+      bottom: 14px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: .8rem;
+      color: rgba(241, 243, 255, .75);
+      text-shadow: 0 1px 6px rgba(0, 0, 0, .6);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fly, h1 .zz { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="crayon">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+
+  <div class="scene" aria-hidden="true">
+    <div class="layer trees" id="trees"></div>
+    <div class="layer fog"></div>
+    <div class="layer crayon"><div class="trunk"></div></div>
+    <div class="layer canopy crayon" id="canopy"></div>
+    <div class="layer field crayon" id="field"></div>
+    <div class="layer" id="flies"></div>
+    <div class="layer grain"></div>
+  </div>
+
+  <main>
+    <p class="eyebrow">shh… something is</p>
+    <h1>Coming soon<span class="zz">z z</span></h1>
+    <p class="lede">We're tucked in among the flowers, dreaming up something cozy. Follow the fireflies back here soon.</p>
+  </main>
+
+  <footer>&copy; 2026 &middot; Blooming quietly</footer>
+
+  <script>
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+    function buildTrees() {
+      const el = document.getElementById("trees");
+      el.innerHTML = "";
+      const count = Math.max(5, Math.round(innerWidth / 140));
+      for (let i = 0; i < count; i++) {
+        const t = document.createElement("span");
+        const w = rand(40, 110);
+        t.style.width = w + "px";
+        t.style.height = rand(28, 40) + "%";
+        t.style.left = ((i + rand(0.1, 0.7)) / count) * 100 + "%";
+        t.style.opacity = rand(0.55, 1);
+        el.appendChild(t);
+      }
+    }
+
+    function blob(parent, x, y, w, h, color, extra = "") {
+      const s = document.createElement("span");
+      s.style.cssText = `left:${x}%;top:${y}%;width:${w}px;height:${h}px;background:${color};${extra}`;
+      parent.appendChild(s);
+    }
+
+    function buildCanopy() {
+      const el = document.getElementById("canopy");
+      el.innerHTML = "";
+      const colors = ["var(--leaf-1)", "var(--leaf-2)", "var(--leaf-3)", "var(--leaf-3)", "#1d4c33"];
+      const count = Math.round(innerWidth / 5);
+      for (let i = 0; i < count; i++) {
+        const x = rand(-8, 104);
+        // canopy hangs lower near the edges so the middle opens onto the forest
+        const edge = Math.abs(x - 50) / 50;
+        const y = rand(-12, 6 + edge * edge * 22);
+        const size = rand(30, 90);
+        blob(el, x, y, size, size * rand(0.5, 0.7), pick(colors), `border-radius:50% 0 50% 0;transform:rotate(${rand(0, 180)}deg)`);
+      }
+    }
+
+    function flowerSVG(size, petal, center, rot) {
+      let petals = "";
+      for (let i = 0; i < 5; i++) {
+        petals += `<ellipse cx="0" cy="-23" rx="18" ry="24" fill="${petal}" transform="rotate(${i * 72})"/>`;
+      }
+      let dots = "";
+      for (let i = 0; i < 5; i++) {
+        dots += `<ellipse cx="0" cy="-12" rx="3.5" ry="6" fill="${center}" opacity=".85" transform="rotate(${i * 72 + 36})"/>`;
+      }
+      return `<svg viewBox="-50 -50 100 100" width="${size}" height="${size}" style="transform:rotate(${rot}deg)">${petals}${dots}<circle r="7" fill="${center}"/><circle r="3" fill="#2a47b8"/></svg>`;
+    }
+
+    function buildField() {
+      const el = document.getElementById("field");
+      el.querySelectorAll("svg, .leaf").forEach(n => n.remove());
+      const h = el.clientHeight;
+      const items = [];
+      const count = Math.round(innerWidth / 7);
+      for (let i = 0; i < count; i++) items.push(Math.pow(Math.random(), 0.8));
+      items.sort((a, b) => a - b);
+
+      const leafColors = ["var(--leaf-1)", "var(--leaf-2)", "var(--leaf-4)"];
+      const petals = ["#3f66e6", "#3559d6", "#4a72ef", "#2f50c8"];
+
+      for (const t of items) {
+        const size = 8 + t * t * 120;
+        const x = rand(-5, 100);
+        const y = t * h - size / 2;
+
+        if (t > 0.35) {
+          const lw = size * rand(0.6, 0.9);
+          const leaf = document.createElement("span");
+          leaf.className = "leaf";
+          leaf.style.cssText = `left:calc(${x}% + ${rand(-size * .4, size * .4)}px);top:${y + size * .35}px;width:${lw}px;height:${lw * .45}px;background:${pick(leafColors)};transform:rotate(${rand(-40, 40)}deg)`;
+          el.appendChild(leaf);
+        }
+
+        const wrap = document.createElement("div");
+        wrap.innerHTML = flowerSVG(size, pick(petals), "#a9bcf5", rand(0, 72));
+        const svg = wrap.firstChild;
+        svg.style.left = `calc(${x}% - ${size / 2}px)`;
+        svg.style.top = y + "px";
+        svg.style.opacity = 0.45 + t * 0.55;
+        el.appendChild(svg);
+      }
+    }
+
+    function buildFlies() {
+      const el = document.getElementById("flies");
+      el.innerHTML = "";
+      const count = Math.round(Math.min(70, innerWidth / 18));
+      for (let i = 0; i < count; i++) {
+        const f = document.createElement("span");
+        f.className = "fly";
+        const y = rand(8, 98);
+        const near = y > 70;
+        f.style.cssText = `left:${rand(0, 100)}%;top:${y}%;--s:${near ? rand(4, 8) : rand(2, 5)}px;--dx:${rand(-40, 40)}px;--dy:${rand(-30, 30)}px;--d:${rand(6, 14)}s;--b:${rand(2, 5)}s;--delay:${rand(-10, 0)}s`;
+        el.appendChild(f);
+      }
+    }
+
+    function build() {
+      buildTrees();
+      buildCanopy();
+      buildField();
+      buildFlies();
+    }
+
+    build();
+    let resizeTimer;
+    let lastWidth = innerWidth;
+    addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (Math.abs(innerWidth - lastWidth) > 40) {
+          lastWidth = innerWidth;
+          build();
+        }
+      }, 250);
+    });
+  </script>
+</body>
+</html>
